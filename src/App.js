@@ -2,7 +2,7 @@
 import './App.css';
 import Input from "./components/Input"
 import FetchData from './components/FetchData';
-// import Chart from "./components/Chart"
+import Chart from "./components/Chart"
 
 function App() {
   return (
@@ -10,8 +10,8 @@ function App() {
       <header className="App-header">
         <div> 
           <Input> </Input>
+          <Chart></Chart>
           <FetchData />
-          
 
         </div>
       </header>

@@ -4,61 +4,79 @@ import React, {useState, useEffect} from 'react';
 
 export default function FetchData() {
     //  API Interface variables: 
+    const jsonFormatting = "json,1.1"
+
+    //location Specific details:
     const siteLocationCode = "03179000"
     const usgsParameterCode = "00060"
-    const jsonFormatting = "json,1.1"
+    // period for data aggregation: 
     const sevenDayPeriod = "P7D"
 
+    // React Hooks for data containment: 
+    const [outflowData, setOutflowData] = useState([])
 
-
-
-    const [temperatureData, setTemperatureData] = useState({})
     // const arrayOfTemps = [];
 
-    // response.data.value.timeSeries[0].values[0].value for the value of Temperature in C
+    // response.data.value.timeSeries[0].values[0].value for the value of Outflow in ft^3/s
     // value[0] is 7 days previous
-    function getTemperatureData() {
-        axios.get(`"https://waterservices.usgs.gov/nwis/dv/?site=${siteLocationCode}&format=${jsonFormatting}&period=${sevenDayPeriod}&parameterCd=${usgsParameterCode}"`)
-            .then(response => setTemperatureData(response.data.value.timeSeries[0].values[0].value))
-        consoleTemperatureData();
+
+    // API Call: returns data, using setState to store JSON data. 
+    function getOutflowData() {
+        axios.get(`https://waterservices.usgs.gov/nwis/iv/?site=${siteLocationCode}&format=${jsonFormatting}&period=${sevenDayPeriod}&parameterCd=${usgsParameterCode}`)
+            .then(response => setOutflowData(response.data.value.timeSeries[0].values[0].value))    
         
     }
-    // function displayTemperatureData() {
-    //       temperatureData.map(x => <div><h1>{x.value}</h1></div>)
+
+
+    // Listening to the React Hook above for changes
+    useEffect(() => {
+        displayOutflowData();
+        // writeData(outflowData)
+    }, [outflowData])
+
+
+
+    // Test case for logging to the DOM. 
+    function displayOutflowData() {
+        outflowData.map(x => console.log(x.value))
+        console.log(outflowData);
+        // displayoutflowData();
+    }
+
+    // Write data to the DOM: 
+    // function writeData(outflowData) {
+    //     for (let data in outflowData){
+    //        console.log(data.value)
+    //    }
+            
     // }
 
 
-    function consoleTemperatureData() {
-        console.log(temperatureData);
-        // displayTemperatureData();
-    }
+    // const state = {
+    //   labels: ["January", "February", "March", "April", "May"],
+    //   datasets: [
+    //     {
+    //       label: "Rainfall",
+    //       fill: false,
+    //       lineTension: 0.5,
+    //       backgroundColor: "rgba(75,192,192,1)",
+    //       borderColor: "rgba(0,0,0,1)",
+    //       borderWidth: 2,
+    //       data: [65, 59, 80, 81, 56],
+    //     },
+    //   ],
+    // };
 
 
-    function getTemperatureData() {
-        axios.get("https://waterservices.usgs.gov/nwis/dv/?site=03179000&format=json,1.1&period=P7D")
-            .then(response => setTemperatureData(response.data.value.timeSeries[0].values[0].value))
-        consoleTemperatureData();
-        
-    }
-
-
-    // const arrayOfTemps = 
-    //       temperatureData.map(x => <div><h1>{x.value}</h1></div>)
     return (
-      
-        <div>
-            <h2>Data field</h2>
-            <button onClick={() => getTemperatureData()}>Get Temperature Data</button>
-            {/* <button onClick={() => consoleTemperatureData()}>Console Data</button> */}
-            {/* {arrayOfTemps} */}
-            {/* <div> {temperatureData.map(x =>
-                <div>
-                    <h3>
-                        {x.value}
-                    </h3>
-                </div>
-            )} */}
-            {/* </div>  */}
-        </div>
-    )
+      <div>
+        <h2>Data field</h2>
+        <button onClick={() => getOutflowData()}>Get Temperature Data</button>
+        {outflowData.map((x) => (
+          <div>
+                <h5>Date:{ x.dateTime}    Value: {x.value} ft^3/s</h5> 
+          </div>
+        ))}
+      </div>
+    );
 }
