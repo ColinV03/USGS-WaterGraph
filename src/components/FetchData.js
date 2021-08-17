@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 import "../../node_modules/react-vis/dist/style.css";
 import {
   XYPlot,
-  LineSeriesCanvas,
+  LineMarkSeries,
   HorizontalGridLines,
   XAxis,
   YAxis,
   VerticalGridLines,
+  ChartLabel
 } from "react-vis";
 // import Input from './Input';
 
@@ -27,6 +28,7 @@ export default function FetchData() {
   const [outflowData, setOutflowData] = useState({})
   const [targetPoint, setTargetPoint] = useState();
   const [graphData, setGraphData] = useState([])
+  const [dataCollected, setDataCollected] = useState(false);
 
   let dataPayload = [];
 
@@ -53,6 +55,7 @@ export default function FetchData() {
     // API Call: returns data, using setState to store JSON data. 
   function getOutflowData() {
     setTargetPoint(siteLocationCode)
+   
     // //ERROR Catching: The system is currently supported by two endpoints:  03179000 and 01646500.
     // if (targetPoint !== "03179000" && targetPoint !== "01646500") {
     //   alert(
@@ -88,7 +91,9 @@ export default function FetchData() {
   function displayOutflowData() {
     // displayOutflowName();
     setGraphData(outflowData.value.timeSeries[0].values[0].value);
-    
+    displayOutflowName();
+    getMeasurementValues();
+    consoleData();
   
     
     console.log(graphData);
@@ -100,7 +105,7 @@ export default function FetchData() {
     if (outflowData.value === undefined) {
       alert("Please Gather Data first!")
     } else {
-      console.log(outflowData.value.timeSeries[0].sourceInfo.siteName)
+      console.log(`Sample Point Name: ${outflowData.value.timeSeries[0].sourceInfo.siteName}`)
       
     }
   }
@@ -109,7 +114,7 @@ export default function FetchData() {
     if (outflowData.value === undefined) {
       alert("Please Gather Data first!")
     } else {
-      console.log(outflowData.value.timeSeries[0].variable.unit.unitCode)
+      console.log(`Measurment in: ${outflowData.value.timeSeries[0].variable.unit.unitCode}`)
     }
   }
 
@@ -125,7 +130,7 @@ export default function FetchData() {
   function consoleData() {
     if (outflowData !== undefined) {
       let data = outflowData.value
-      console.log(data.timeSeries[0].values[0].value)
+      console.log( data.timeSeries[0].values[0].value)
     }
     else {
       alert("Cant do that just yet!")
@@ -138,7 +143,9 @@ export default function FetchData() {
     graphData.map(record => {
       dataPayload.push({x: graphData.indexOf(record), y:record.value})
     })
-  console.log(dataPayload)
+     setDataCollected(!dataCollected);
+    console.log(dataPayload);
+    
   }
 
 
@@ -167,12 +174,12 @@ export default function FetchData() {
 
         <h2>Data field</h2>
 
-        <button onClick={() => displayOutflowName()}>
+        {/* <button onClick={() => displayOutflowName()}>
           Get outflow siteName
         </button>
         <button onClick={() => getMeasurementValues()}>
           Get Temperature Data
-        </button>
+        </button> */}
         <button onClick={() => displayOutflowData()}>Convert Data</button>
         <br></br>
         <button onClick={() => consoleData()}>Console Graph Data</button>
@@ -182,15 +189,44 @@ export default function FetchData() {
         </button>
         <br></br>
         <br></br>
-        <div className="chart">
-          <XYPlot height={500} width={500} color="red" opacity="1">
-            <VerticalGridLines />
-            <HorizontalGridLines />
-            <XAxis />
-            <YAxis />
-            <LineSeriesCanvas data={dataPayload} color="red" />
-          </XYPlot>
-        </div>
+        {dataCollected ? (
+          <div className="chart">
+            <XYPlot
+              height={500}
+              width={500}
+              color="red"
+              opacity="1"
+              dontCheckIfEmpty={true}
+            >
+              <VerticalGridLines />
+              <HorizontalGridLines />
+              <LineMarkSeries data={dataPayload} color="red" />
+              <XAxis  />
+              <YAxis  />
+              <ChartLabel
+                text="X Axis"
+                className="alt-x-label"
+                includeMargin={false}
+                xPercent={0.025}
+                yPercent={1.01}
+              />
+
+              <ChartLabel
+                text="Y Axis"
+                className="alt-y-label"
+                includeMargin={false}
+                xPercent={0.06}
+                yPercent={0.06}
+                style={{
+                  transform: "rotate(-90)",
+                  textAnchor: "end",
+                }}
+              />
+            </XYPlot>
+          </div>
+        ) : (
+          <h3>No data selected</h3>
+        )}
       </div>
     );
 }
