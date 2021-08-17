@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import Input from "./components/Input"
+// import Input from "./components/Input"
 import FetchData from './components/FetchData';
 import Chart from "./components/Chart"
 
@@ -9,9 +9,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div> 
-          <Input> </Input>
-          <Chart></Chart>
+          
           <FetchData />
+          {/* <Chart></Chart> */}
 
         </div>
       </header>

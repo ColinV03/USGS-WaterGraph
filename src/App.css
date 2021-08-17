@@ -37,7 +37,7 @@
   }
 }
 
-/* .Chart{
-  align-items: center;
-  
-} */
+.chart{
+  background-color: white;
+  border: 1px solid #61dafb;
+}

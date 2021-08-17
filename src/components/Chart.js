@@ -1,8 +1,8 @@
 import React, {Component} from "react"
 import "../../node_modules/react-vis/dist/style.css"
 import { XYPlot, LineSeries, HorizontalGridLines, XAxis, YAxis, VerticalGridLines } from "react-vis";
-import verticalGridLines from "react-vis/dist/plot/vertical-grid-lines";
-import yAxis from "react-vis/dist/plot/axis/y-axis";
+// import verticalGridLines from "react-vis/dist/plot/vertical-grid-lines";
+// import yAxis from "react-vis/dist/plot/axis/y-axis";
 
 export default class Chart extends Component {
   render() {
