@@ -29,8 +29,10 @@ export default function FetchData() {
   const [targetPoint, setTargetPoint] = useState();
   const [graphData, setGraphData] = useState([])
   const [dataCollected, setDataCollected] = useState(false);
+  const [dataPayload, setdataPayload] = useState([])
 
-  let dataPayload = [];
+  let measurement = '';
+ 
 
 
   // handling input for specific site code: 
@@ -111,10 +113,12 @@ export default function FetchData() {
   }
 
   function getMeasurementValues() {
+    
     if (outflowData.value === undefined) {
       alert("Please Gather Data first!")
     } else {
-      console.log(`Measurment in: ${outflowData.value.timeSeries[0].variable.unit.unitCode}`)
+      measurement = outflowData.value.timeSeries[0].variable.unit.unitCode
+      console.log(`Measurment in: ${measurement}`)
     }
   }
 
@@ -140,11 +144,12 @@ export default function FetchData() {
 
 // DATA Conversion steps: 
   function convertToReactVisData() {
+     let newArray = [];
     graphData.map(record => {
-      dataPayload.push({x: graphData.indexOf(record), y:record.value})
+      newArray.push({x: graphData.indexOf(record), y:record.value})
     })
-     setDataCollected(!dataCollected);
-    console.log(dataPayload);
+    setdataPayload(newArray)
+    setDataCollected(!dataCollected);
     
   }
 
@@ -191,37 +196,21 @@ export default function FetchData() {
         <br></br>
         {dataCollected ? (
           <div className="chart">
+            <h5 className="chartTitle">{outflowData.value.timeSeries[0].sourceInfo.siteName}</h5>
             <XYPlot
-              height={500}
-              width={500}
-              color="red"
+              height={800}
+              width={800}
+              fill="red"
               opacity="1"
               dontCheckIfEmpty={true}
-            >
+              yDomain={[0, 150, 200]}
+            
+              >
               <VerticalGridLines />
               <HorizontalGridLines />
-              <LineMarkSeries data={dataPayload} color="red" />
-              <XAxis  />
-              <YAxis  />
-              <ChartLabel
-                text="X Axis"
-                className="alt-x-label"
-                includeMargin={false}
-                xPercent={0.025}
-                yPercent={1.01}
-              />
-
-              <ChartLabel
-                text="Y Axis"
-                className="alt-y-label"
-                includeMargin={false}
-                xPercent={0.06}
-                yPercent={0.06}
-                style={{
-                  transform: "rotate(-90)",
-                  textAnchor: "end",
-                }}
-              />
+              <LineMarkSeries data={dataPayload} size='1' />
+              <XAxis title="X Axis" />
+              <YAxis title="Outflow ft^3/s" tickTotal={10} />
             </XYPlot>
           </div>
         ) : (
