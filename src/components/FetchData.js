@@ -168,11 +168,11 @@ export default function FetchData() {
   function convertToReactVisData() {
      let newArray = [];
       graphData.map(record => {
-      newArray.push({x: graphData.indexOf(record), y:record.value})
+      newArray.push({x: graphData.indexOf(record), y:record.value, id:record.dateTime})
     })
     setdataPayload(newArray);
     setDataCollected(true);
-   
+    console.log(newArray)
     
   }
 
@@ -216,7 +216,7 @@ export default function FetchData() {
             type="submit"
             // onClick={() => getOutflowData()}
           >
-            Get Outflow Data
+            1. Get Outflow Data
           </button>
         </form>
 
@@ -226,19 +226,19 @@ export default function FetchData() {
         <button onClick={() => getMeasurementValues()}>
           Get Temperature Data
         </button> */}
-        <button onClick={() => displayOutflowData()}>Grab all Data</button>
+        <button onClick={() => displayOutflowData()}>2. Grab all Data</button>
         <br></br>
         {/* <button onClick={() => consoleData()}>Console Graph Data</button> */}
         {/* <br></br> */}
         <button onClick={() => convertToReactVisData()}>
-          Conversion Data
+          3. Conversion Data
         </button>
         <br></br>
         <button onClick={() => setmaxValueGraphHeight()}>
-          Max graph height:
+          4. Max graph height:
         </button>
         <br></br>
-        <button onClick={() => graphIt()}>GraphIT!</button>
+        <button onClick={() => graphIt()}> 5. GraphIT!</button>
         <br></br>
         <div className="chartWrapper">
           {graphBoolean ? (
