@@ -13,7 +13,6 @@ import {
   FlexibleWidthXYPlot,
   FlexibleHeightXYPlot
 } from "react-vis";
-import * as d3 from "d3"
 // import Input from './Input';
 
 
@@ -49,6 +48,7 @@ export default function FetchData() {
        alert("Please Enter a value");
      } else {
        console.log(`Submitting value ${targetPoint}`);
+       getOutflowData();
      }
      // reset();
    };
@@ -59,31 +59,38 @@ export default function FetchData() {
     // value[0] is 7 days previous
 
     // API Call: returns data, using setState to store JSON data. 
-  function getOutflowData() {
+  async function getOutflowData() {
+    console.log("Sequence Started")
     setTargetPoint(siteLocationCode)
-   
+    console.log(`Target point: ${targetPoint} SET!`)
+  
     // //ERROR Catching: The system is currently supported by two endpoints:  03179000 and 01646500.
-    // if (targetPoint !== "03179000" && targetPoint !== "01646500") {
-    //   alert(
-    //     "Please use one of the two supported use cases available: \n 03179000 \n or \n 01646500."
-    //   );
-    // } else {
+    if (targetPoint !== "03179000" && targetPoint !== "01646500") {
+      alert(
+        "Please use one of the two supported use cases available: \n 03179000 \n or \n 01646500."
+      );
+    } else {
       
-         axios
-           .get(
-             `https://waterservices.usgs.gov/nwis/iv/?site=${siteLocationCode}&format=${jsonFormatting}&period=${sevenDayPeriod}&parameterCd=${usgsParameterCode}`
-           )
-           .then((response) => setOutflowData(response.data))
-    
+      await axios
+        .get(
+          `https://waterservices.usgs.gov/nwis/iv/?site=${targetPoint}&format=${jsonFormatting}&period=${sevenDayPeriod}&parameterCd=${usgsParameterCode}`
+        )
+        .then((response) => setOutflowData(response.data))
+        .then(console.log("Data Received"));
+            
     
       
-    // }
+    }
+
 
   }
-  useEffect(() => {
-    getOutflowData();
+
+
+// // FOR TESTING: 
+//   useEffect(() => {
+//     // getOutflowData();
     
-  }, [])
+//   }, [])
 
     // Listening to the React Hook above for changes
     // useEffect(() => {
@@ -94,17 +101,26 @@ export default function FetchData() {
 
 
     // Test case for logging to the DOM. 
-  function displayOutflowData() {
-    // displayOutflowName();
-    setGraphData(outflowData.value.timeSeries[0].values[0].value);
-    displayOutflowName();
-    getMeasurementValues();
-    // consoleData();
-    convertToReactVisData();
-  
-    console.log(graphData);
+  async function displayOutflowData() {
     console.log(outflowData);
+    if (outflowData !== undefined && outflowData !== null) {
+       setGraphData(outflowData.value.timeSeries[0].values[0].value);
+        displayOutflowName();
+        getMeasurementValues();
+        // consoleData();
+        // setmaxValueGraphHeight();
+        convertToReactVisData();
+      
+        console.log(graphData);
+        
+    }
+    else {
+      alert("Cant do that just yet!")
+    }
   }
+    // displayOutflowName();
+   
+
   
   
   function displayOutflowName() {
@@ -190,12 +206,13 @@ export default function FetchData() {
             value={targetPoint}
             onChange={(e) => setTargetPoint(e.target.value)}
           />
-          <button type="submit" onClick={() => getOutflowData()}>
+          <button
+            type="submit"
+            // onClick={() => getOutflowData()}
+          >
             Get Outflow Data
           </button>
         </form>
-
-        <h2>Data field</h2>
 
         {/* <button onClick={() => displayOutflowName()}>
           Get outflow siteName
@@ -211,31 +228,35 @@ export default function FetchData() {
           Check the Conversion Data
         </button>
         <br></br>
-        <button onClick={() => setmaxValueGraphHeight()}>Max graph height:</button>
+        <button onClick={() => setmaxValueGraphHeight()}>
+          Max graph height:
+        </button>
         <br></br>
         <button onClick={() => graphIt()}>GraphIT!</button>
         <br></br>
-        {dataCollected ? (
-          <div className="chart" style={{ height: "40vh", width: "80vw" }}>
-            <h5 className="chartTitle">
-              {outflowData.value.timeSeries[0].sourceInfo.siteName}
-            </h5>
-            <FlexibleXYPlot
-              fill="red"
-              opacity="1"
-              dontCheckIfEmpty={true}
-              yDomain={[20, `${maxValue}`]}
-            >
-              <VerticalGridLines />
-              <HorizontalGridLines />
-              <LineMarkSeries data={dataPayload} size="1" />
-              <XAxis title="X Axis" />
-              <YAxis title="Outflow ft^3/s" tickTotal={10} />
-            </FlexibleXYPlot>
-          </div>
-        ) : (
-          <h3>No data selected</h3>
-        )}
+        <div className="chartWrapper">
+          {dataCollected ? (
+            <div className="chart" style={{}}>
+              <h5 className="chartTitle">
+                {outflowData.value.timeSeries[0].sourceInfo.siteName}
+              </h5>
+              <FlexibleXYPlot
+                fill="red"
+                opacity="1"
+                dontCheckIfEmpty={true}
+                yDomain={[20, 600]}
+              >
+                <VerticalGridLines />
+                <HorizontalGridLines />
+                <LineMarkSeries data={dataPayload} size="1" />
+                <XAxis title="X Axis" tickTotal={8} />
+                <YAxis title="Outflow ft^3/s" tickTotal={10} />
+              </FlexibleXYPlot>
+            </div>
+          ) : (
+            <h3>No data selected</h3>
+          )}
+        </div>
       </div>
     );
 }
