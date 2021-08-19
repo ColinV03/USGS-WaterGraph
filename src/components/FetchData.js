@@ -8,8 +8,12 @@ import {
   XAxis,
   YAxis,
   VerticalGridLines,
-  ChartLabel
+  ChartLabel,
+    FlexibleXYPlot,
+  FlexibleWidthXYPlot,
+  FlexibleHeightXYPlot
 } from "react-vis";
+import * as d3 from "d3"
 // import Input from './Input';
 
 
@@ -95,9 +99,9 @@ export default function FetchData() {
     setGraphData(outflowData.value.timeSeries[0].values[0].value);
     displayOutflowName();
     getMeasurementValues();
-    consoleData();
+    // consoleData();
+    convertToReactVisData();
   
-    
     console.log(graphData);
     console.log(outflowData);
   }
@@ -134,7 +138,7 @@ export default function FetchData() {
   function consoleData() {
     if (outflowData !== undefined) {
       let data = outflowData.value
-      console.log( data.timeSeries[0].values[0].value)
+      console.log(data.timeSeries[0].values[0].value)
     }
     else {
       alert("Cant do that just yet!")
@@ -149,14 +153,28 @@ export default function FetchData() {
       newArray.push({x: graphData.indexOf(record), y:record.value})
     })
     setdataPayload(newArray)
-    setDataCollected(!dataCollected);
+   
     
   }
 
 
 
+  // for scaling graph: Thought for dynamically scaling the domain in the XYPlot 
+
+  let maxValue;
+
+  function setmaxValueGraphHeight() {
+    maxValue = (Math.max.apply(Math, dataPayload.map(item => item.y)) +100);
+    
+    console.log(maxValue)
+    return maxValue;
+  }
 
 
+
+  function graphIt() {
+    setDataCollected(!dataCollected);
+  }
 
 
 
@@ -187,31 +205,33 @@ export default function FetchData() {
         </button> */}
         <button onClick={() => displayOutflowData()}>Convert Data</button>
         <br></br>
-        <button onClick={() => consoleData()}>Console Graph Data</button>
+        {/* <button onClick={() => consoleData()}>Console Graph Data</button> */}
         <br></br>
         <button onClick={() => convertToReactVisData()}>
           Check the Conversion Data
         </button>
         <br></br>
+        <button onClick={() => setmaxValueGraphHeight()}>Max graph height:</button>
+        <br></br>
+        <button onClick={() => graphIt()}>GraphIT!</button>
         <br></br>
         {dataCollected ? (
-          <div className="chart">
-            <h5 className="chartTitle">{outflowData.value.timeSeries[0].sourceInfo.siteName}</h5>
-            <XYPlot
-              height={800}
-              width={800}
+          <div className="chart" style={{ height: "40vh", width: "80vw" }}>
+            <h5 className="chartTitle">
+              {outflowData.value.timeSeries[0].sourceInfo.siteName}
+            </h5>
+            <FlexibleXYPlot
               fill="red"
               opacity="1"
               dontCheckIfEmpty={true}
-              yDomain={[0, 150, 200]}
-            
-              >
+              yDomain={[20, `${maxValue}`]}
+            >
               <VerticalGridLines />
               <HorizontalGridLines />
-              <LineMarkSeries data={dataPayload} size='1' />
+              <LineMarkSeries data={dataPayload} size="1" />
               <XAxis title="X Axis" />
               <YAxis title="Outflow ft^3/s" tickTotal={10} />
-            </XYPlot>
+            </FlexibleXYPlot>
           </div>
         ) : (
           <h3>No data selected</h3>
