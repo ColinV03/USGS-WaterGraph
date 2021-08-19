@@ -70,15 +70,12 @@ export default function FetchData() {
         "Please use one of the two supported use cases available: \n 03179000 \n or \n 01646500."
       );
     } else {
-      
-      await axios
+       await axios
         .get(
           `https://waterservices.usgs.gov/nwis/iv/?site=${targetPoint}&format=${jsonFormatting}&period=${sevenDayPeriod}&parameterCd=${usgsParameterCode}`
         )
         .then((response) => setOutflowData(response.data))
         .then(console.log("Data Received"));
-            
-    
       
     }
 
@@ -87,10 +84,10 @@ export default function FetchData() {
 
 
 // // FOR TESTING: 
-//   useEffect(() => {
-//     // getOutflowData();
+  useEffect(() => {
+    getOutflowData();
     
-//   }, [])
+  }, [])
 
     // Listening to the React Hook above for changes
     // useEffect(() => {
@@ -101,17 +98,17 @@ export default function FetchData() {
 
 
     // Test case for logging to the DOM. 
-  async function displayOutflowData() {
+  function displayOutflowData() {
     console.log(outflowData);
     if (outflowData !== undefined && outflowData !== null) {
        setGraphData(outflowData.value.timeSeries[0].values[0].value);
         displayOutflowName();
-        getMeasurementValues();
+         getMeasurementValues();
         // consoleData();
         // setmaxValueGraphHeight();
         convertToReactVisData();
       
-        console.log(graphData);
+        // console.log(graphData);
         
     }
     else {
@@ -165,7 +162,7 @@ export default function FetchData() {
 // DATA Conversion steps: 
   function convertToReactVisData() {
      let newArray = [];
-    graphData.map(record => {
+      graphData.map(record => {
       newArray.push({x: graphData.indexOf(record), y:record.value})
     })
     setdataPayload(newArray)
@@ -220,12 +217,12 @@ export default function FetchData() {
         <button onClick={() => getMeasurementValues()}>
           Get Temperature Data
         </button> */}
-        <button onClick={() => displayOutflowData()}>Convert Data</button>
+        <button onClick={() => displayOutflowData()}>Grab all Data</button>
         <br></br>
         {/* <button onClick={() => consoleData()}>Console Graph Data</button> */}
         <br></br>
         <button onClick={() => convertToReactVisData()}>
-          Check the Conversion Data
+          Conversion Data
         </button>
         <br></br>
         <button onClick={() => setmaxValueGraphHeight()}>

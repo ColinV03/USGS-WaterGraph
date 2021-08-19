@@ -8,11 +8,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div> 
-          
-          <FetchData />
+        <div>
+          <FetchData targetPoint={"03179000"} />
           {/* <Chart></Chart> */}
-
         </div>
       </header>
     </div>
