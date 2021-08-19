@@ -32,7 +32,8 @@ export default function FetchData() {
   const [targetPoint, setTargetPoint] = useState();
   const [graphData, setGraphData] = useState([])
   const [dataCollected, setDataCollected] = useState(false);
-  const [dataPayload, setdataPayload] = useState([])
+  const [dataPayload, setdataPayload] = useState([]);
+  const [graphBoolean, setgraphBoolean] = useState(false);
 
   const [maxGraphHeight, setMaxGraphHeight] = useState(600)
 
@@ -169,7 +170,8 @@ export default function FetchData() {
       graphData.map(record => {
       newArray.push({x: graphData.indexOf(record), y:record.value})
     })
-    setdataPayload(newArray)
+    setdataPayload(newArray);
+    setDataCollected(true);
    
     
   }
@@ -188,7 +190,12 @@ export default function FetchData() {
 
 
   function graphIt() {
-    setDataCollected(!dataCollected);
+    if (dataCollected) {
+      setgraphBoolean(true);
+    } else {
+      alert("Cant do that just yet!");
+    }
+    
   }
 
 
@@ -204,6 +211,7 @@ export default function FetchData() {
             placeholder="Please Enter Code"
             onChange={(e) => setTargetPoint(e.target.value)}
           />
+          <br></br>
           <button
             type="submit"
             // onClick={() => getOutflowData()}
@@ -221,7 +229,7 @@ export default function FetchData() {
         <button onClick={() => displayOutflowData()}>Grab all Data</button>
         <br></br>
         {/* <button onClick={() => consoleData()}>Console Graph Data</button> */}
-        <br></br>
+        {/* <br></br> */}
         <button onClick={() => convertToReactVisData()}>
           Conversion Data
         </button>
@@ -233,7 +241,7 @@ export default function FetchData() {
         <button onClick={() => graphIt()}>GraphIT!</button>
         <br></br>
         <div className="chartWrapper">
-          {dataCollected ? (
+          {graphBoolean ? (
             <div className="chart" style={{}}>
               <h5 className="chartTitle">
                 {outflowData.value.timeSeries[0].sourceInfo.siteName}
