@@ -199,6 +199,32 @@ export default function FetchData() {
   }
 
 
+  function formatDate(date) {
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+    date = mm + "/" + dd + "/" + yyyy;
+    return date;
+  }
+
+  let xAxisArray = []
+  function xAxisLabels() {
+    xAxisArray = [];
+    for (var i=0; i<7; i++) {
+        var d = new Date();
+        d.setDate(d.getDate() - i);
+        xAxisArray.push( formatDate(d) )
+    }
+    console.log(xAxisArray)
+    }
+
+
 
 
     return (
@@ -240,6 +266,8 @@ export default function FetchData() {
         <br></br>
         <button onClick={() => graphIt()}> 5. GraphIT!</button>
         <br></br>
+        <button onClick={() => xAxisLabels()}> Date Check!</button>
+        <br></br>
         <div className="chartWrapper">
           {graphBoolean ? (
             <div className="chart" style={{}}>
@@ -255,7 +283,7 @@ export default function FetchData() {
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <LineMarkSeries data={dataPayload} size="1" />
-                <XAxis title="X Axis" tickTotal={8} />
+                <XAxis title="X Axis" tickTotal={8} tickValues={ [xAxisLabels ]} />
                 <YAxis title="Outflow ft^3/s" tickTotal={10} />
               </FlexibleXYPlot>
             </div>
