@@ -1,6 +1,15 @@
 # Abstract: 
 
     This project is to utalize the USGS API found [here](https://waterservices.usgs.gov/rest/DV-Service.html) to try and recreate the graph found [here](https://waterservices.usgs.gov/) based off of the parameters: 03179000 
+### Targets: 
+
+The object is to provide the user with an input that can select input in a form to pull different values from an API endpoint. 
+
+The API request is currently hardcoded at 03179000 to avoid any sort of issues with the API request. 
+
+Please run `NPM i` Prior to starting to ensure all dependencies are loaded. 
+
+
 
 
 

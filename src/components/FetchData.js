@@ -34,7 +34,11 @@ export default function FetchData() {
   const [dataCollected, setDataCollected] = useState(false);
   const [dataPayload, setdataPayload] = useState([])
 
+  const [maxGraphHeight, setMaxGraphHeight] = useState(600)
+
+
   let measurement = '';
+  
  
 
 
@@ -84,10 +88,10 @@ export default function FetchData() {
 
 
 // // FOR TESTING: 
-  useEffect(() => {
-    getOutflowData();
+  // useEffect(() => {
+  //   getOutflowData();
     
-  }, [])
+  // }, [])
 
     // Listening to the React Hook above for changes
     // useEffect(() => {
@@ -174,13 +178,11 @@ export default function FetchData() {
 
   // for scaling graph: Thought for dynamically scaling the domain in the XYPlot 
 
-  let maxValue;
-
+  
   function setmaxValueGraphHeight() {
-    maxValue = (Math.max.apply(Math, dataPayload.map(item => item.y)) +100);
-    
-    console.log(maxValue)
-    return maxValue;
+    let maxValue = (Math.max.apply(Math, dataPayload.map(item => item.y)) +100);
+    console.log(maxValue);
+    setMaxGraphHeight(maxValue);
   }
 
 
@@ -200,7 +202,6 @@ export default function FetchData() {
           <input
             type="text"
             placeholder="Please Enter Code"
-            value={targetPoint}
             onChange={(e) => setTargetPoint(e.target.value)}
           />
           <button
@@ -241,7 +242,7 @@ export default function FetchData() {
                 fill="red"
                 opacity="1"
                 dontCheckIfEmpty={true}
-                yDomain={[20, 600]}
+                yDomain={[20, maxGraphHeight]}
               >
                 <VerticalGridLines />
                 <HorizontalGridLines />
