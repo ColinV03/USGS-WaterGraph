@@ -269,6 +269,7 @@ export default function FetchData() {
         <input
           type="text"
           placeholder="Please Enter Code"
+          value={targetPoint}
           onChange={(e) => setTargetPoint(e.target.value)}
         />
         <br></br>
