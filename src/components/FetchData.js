@@ -20,7 +20,7 @@ export default function FetchData() {
   const jsonFormatting = "json,1.1";
 
   //location Specific details:
-  const siteLocationCode = "03179000";
+  // const siteLocationCode = "03179000";
   const usgsParameterCode = "00060";
 
   // period for data aggregation:
@@ -61,7 +61,7 @@ export default function FetchData() {
   // API Call: returns data, using setState to store JSON data.
   async function getOutflowData() {
     console.log("Sequence Started");
-    setTargetPoint(siteLocationCode);
+    // setTargetPoint(siteLocationCode);
     console.log(`Target point: ${targetPoint} SET!`);
 
     // USE SET TIMEOUT TO ALLOW DATA TO BE WRITTEN TO OUTFLOW DATA BEFORE GRAPHING.
@@ -97,8 +97,11 @@ export default function FetchData() {
       outflowData !== null &&
       dataCollected
     ) {
-      displayOutflowData();
-      console.log(`"Outflow Got called! Graph State ${dataCollected}"`);
+      setTimeout(() => {
+        console.log(`"Outflow Got called! Graph State ${dataCollected}"`);
+        displayOutflowData();
+        
+      }, 500);
     }
     // displayOutflowData();
   }, [dataCollected]);
@@ -133,8 +136,9 @@ export default function FetchData() {
 
   // Test case for logging to the DOM.
   function displayOutflowData() {
-    console.log(outflowData);
-    if (outflowData !== undefined && outflowData !== null && dataCollected) {
+    const readyToGraph =
+      outflowData !== undefined && outflowData !== null && dataCollected;
+    if (readyToGraph) {
       setGraphData(outflowData.value.timeSeries[0].values[0].value);
       // displayOutflowName();
       //  getMeasurementValues();

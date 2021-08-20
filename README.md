@@ -10,7 +10,13 @@ The API request is currently open to requests at both parameters: 03179000 and 0
 
 The current site is posted [here](https://colinv03.github.io/nrp-test/) on Github Pages. Feel free to open up the console to see a little more under the hood. 
 
-Please run `npm i` Prior to starting to ensure all dependencies are loaded. 
+Please run `npm i` Prior to starting to ensure all dependencies are loaded.
+
+### KNOWN BUGS: 
+
+ If the page turns to a white page after request on first page load, please refresh the page. 
+
+
 
 
 
