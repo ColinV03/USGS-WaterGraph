@@ -92,17 +92,21 @@ export default function FetchData() {
 
   // Listening to the React Hook above for changes
   useEffect(() => {
-    if (outflowData !== undefined && outflowData !== null && dataCollected) {
-      setGraphData(outflowData.value.timeSeries[0].values[0].value);
+    if (
+      outflowData !== undefined &&
+      outflowData !== null &&
+      dataCollected
+    ) {
+      displayOutflowData();
+      console.log(`"Outflow Got called! Graph State ${dataCollected}"`);
     }
     // displayOutflowData();
-    console.log(`"Outflow Got called! Graph State ${dataCollected}"`);
   }, [dataCollected]);
 
   // useHook for converting and displaying data:
   useEffect(() => {
-    console.log("Graph data needs data first!");
     if (graphData.length > 0) {
+      console.log("Graph data needs data first!");
       displayOutflowName();
       getMeasurementValues();
       convertToReactVisData();
@@ -111,16 +115,19 @@ export default function FetchData() {
 
   // UseEffect with atimeout to set the max value of the graphing height
   useEffect(() => {
-    setTimeout(() => {
-      setmaxValueGraphHeight();
-    }, 100);
+    if (dataPayload.length > 0) {
+      setTimeout(() => {
+        setmaxValueGraphHeight();
+      }, 100);
+      
+    }
   }, [dataPayload]);
 
   useEffect(() => {
-    if (maxGraphHeight > 101) {
+    if (maxGraphHeight > 101 && dataPayload.length > 0) {
       setTimeout(() => {
         graphIt();
-      }, 100);
+      }, 500);
    }
  }, [maxGraphHeight])
 

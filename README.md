@@ -1,13 +1,16 @@
 # Abstract: 
 
-    This project is to utalize the USGS API found [here](https://waterservices.usgs.gov/rest/DV-Service.html) to try and recreate the graph found [here](https://waterservices.usgs.gov/) based off of the parameters: 03179000 
+This project is to utalize the USGS API found [here](https://waterservices.usgs.gov/rest/DV-Service.html) to try and recreate the graph found [here](https://waterservices.usgs.gov/) based off of the parameters: 03179000 and 01646500. There are some updates that could be made to the graph, adding some statistical values and variances between dates, along with proper X axis labeling, some further research into react vis libraries would be of benefit here. 
+
 ### Targets: 
 
 The object is to provide the user with an input that can select input in a form to pull different values from an API endpoint. 
 
-The API request is currently hardcoded at 03179000 to avoid any sort of issues with the API request. 
+The API request is currently open to requests at both parameters: 03179000 and 01646500 to avoid any sort of issues with the API request. And the USGS parameter code is set at 00060 currently. The graph is responsive in different sized windows and allows for viewing on different platforms. 
 
-Please run `NPM i` Prior to starting to ensure all dependencies are loaded. 
+The current site is posted [here](https://colinv03.github.io/nrp-test/) on Github Pages. Feel free to open up the console to see a little more under the hood. 
+
+Please run `npm i` Prior to starting to ensure all dependencies are loaded. 
 
 
 
