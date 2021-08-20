@@ -79,7 +79,7 @@ export default function FetchData() {
         .then((response) => setOutflowData(response.data))
         .then(setTimeout(() => {
           setDataCollected(true)
-        }, 200));
+        }, 500));
         
     }
   }
@@ -216,6 +216,7 @@ export default function FetchData() {
   function graphIt() {
     if (dataCollected) {
       setgraphBoolean(true);
+      setDataCollected(false);
     } else {
       alert("Graphing: Cant do that just yet!");
     }
