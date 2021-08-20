@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/nrp-test/static/css/main.4f077917.chunk.css",
-    "main.js": "/nrp-test/static/js/main.0a004bb6.chunk.js",
-    "main.js.map": "/nrp-test/static/js/main.0a004bb6.chunk.js.map",
+    "main.css": "/nrp-test/static/css/main.cbdaebba.chunk.css",
+    "main.js": "/nrp-test/static/js/main.f2a901ca.chunk.js",
+    "main.js.map": "/nrp-test/static/js/main.f2a901ca.chunk.js.map",
     "runtime-main.js": "/nrp-test/static/js/runtime-main.e47f09aa.js",
     "runtime-main.js.map": "/nrp-test/static/js/runtime-main.e47f09aa.js.map",
     "static/css/2.62e7949a.chunk.css": "/nrp-test/static/css/2.62e7949a.chunk.css",
@@ -12,14 +12,14 @@
     "static/js/3.f9488176.chunk.js.map": "/nrp-test/static/js/3.f9488176.chunk.js.map",
     "index.html": "/nrp-test/index.html",
     "static/css/2.62e7949a.chunk.css.map": "/nrp-test/static/css/2.62e7949a.chunk.css.map",
-    "static/css/main.4f077917.chunk.css.map": "/nrp-test/static/css/main.4f077917.chunk.css.map",
+    "static/css/main.cbdaebba.chunk.css.map": "/nrp-test/static/css/main.cbdaebba.chunk.css.map",
     "static/js/2.0c9ab294.chunk.js.LICENSE.txt": "/nrp-test/static/js/2.0c9ab294.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.e47f09aa.js",
     "static/css/2.62e7949a.chunk.css",
     "static/js/2.0c9ab294.chunk.js",
-    "static/css/main.4f077917.chunk.css",
-    "static/js/main.0a004bb6.chunk.js"
+    "static/css/main.cbdaebba.chunk.css",
+    "static/js/main.f2a901ca.chunk.js"
   ]
 }
