@@ -83,7 +83,7 @@ export default function FetchData() {
         .then(console.log("Data Received"));
       
     }
-
+     setDataCollected(true);
 
   }
 
@@ -105,7 +105,7 @@ export default function FetchData() {
     // Test case for logging to the DOM. 
   function displayOutflowData() {
     console.log(outflowData);
-    if (outflowData !== undefined && outflowData !== null) {
+    if ((outflowData !== undefined && outflowData !== null) && dataCollected) {
        setGraphData(outflowData.value.timeSeries[0].values[0].value);
         displayOutflowName();
          getMeasurementValues();
@@ -171,7 +171,7 @@ export default function FetchData() {
       newArray.push({x: graphData.indexOf(record), y:record.value, id:record.dateTime})
     })
     setdataPayload(newArray);
-    setDataCollected(true);
+   
     console.log(newArray)
     
   }
@@ -230,6 +230,7 @@ export default function FetchData() {
     return (
       <div>
         <form onSubmit={handleSubmit}>
+          <p className="instructions"> Instructions: please push buttons 1 => 5 for details. Most all smaller details will be provided in the console.</p>
           <label>Please provide the sample point:</label>
           <br></br>
           <input
@@ -283,7 +284,7 @@ export default function FetchData() {
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <LineMarkSeries data={dataPayload} size="1" />
-                <XAxis title="X Axis" tickTotal={8} tickValues={ [xAxisLabels ]} />
+                <XAxis title="X Axis" tickTotal={8}  />
                 <YAxis title="Outflow ft^3/s" tickTotal={10} />
               </FlexibleXYPlot>
             </div>
