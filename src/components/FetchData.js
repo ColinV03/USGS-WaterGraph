@@ -106,7 +106,7 @@ export default function FetchData() {
   // useHook for converting and displaying data:
   useEffect(() => {
     if (graphData.length > 0) {
-      console.log("Graph data needs data first!");
+      // console.log("Graph data needs data first!");
       displayOutflowName();
       getMeasurementValues();
       convertToReactVisData();
@@ -302,7 +302,7 @@ export default function FetchData() {
         {graphBoolean ? (
           <div className="chart" style={{}}>
             <h5 className="chartTitle">
-              {outflowData.value.timeSeries[0].sourceInfo.siteName}
+              {`Water Discharge for ${outflowData.value.timeSeries[0].sourceInfo.siteName}`}
             </h5>
             <FlexibleXYPlot
               fill="red"
@@ -314,7 +314,7 @@ export default function FetchData() {
               <HorizontalGridLines />
               <LineMarkSeries data={dataPayload} size="1" />
               <XAxis title="X Axis" tickTotal={8} />
-              <YAxis title="Outflow ft^3/s" tickTotal={10} />
+              <YAxis title="Water Discharge, Outflow ft^3/s" tickTotal={10} />
             </FlexibleXYPlot>
           </div>
         ) : (
