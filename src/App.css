@@ -60,6 +60,16 @@
   color:#282c34
 }
 
+
 .instructions{
+  display: flex;
   font-size: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.instructionsText{
+  align-items: center;
+  justify-content: center;
+  width: 40vw;
 }

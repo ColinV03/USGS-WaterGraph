@@ -95,10 +95,46 @@ export default function FetchData() {
   // }, [])
 
     // Listening to the React Hook above for changes
-    // useEffect(() => {
-    //  setGraphData(outflowData.value.timeSeries[0].values[0].value)
+  useEffect(() => {
+    if ((outflowData !== undefined && outflowData !== null) && dataCollected) {
+      setGraphData(outflowData.value.timeSeries[0].values[0].value);
+    }
+    // displayOutflowData();
+    console.log(`"Outflow Got called! Graph State ${dataCollected}"`)
       
-    // }, [outflowData])
+    }, [dataCollected])
+  
+  // useHook for converting and displaying data: 
+  useEffect(() => {
+    console.log("Graph data needs data first!")
+    if (graphData.length > 0) {
+      displayOutflowName();
+       getMeasurementValues();
+       convertToReactVisData();
+    }
+      
+  }, [graphData])
+  
+
+
+  useEffect(() => {
+    if (dataPayload.length > 0 && dataCollected) {
+      graphIt();
+    }
+    
+    
+  }, [dataPayload])
+
+
+
+  // useEffect(() => {
+  //   if (graphData.length > 0) {
+  //     console.log("Got called once!")
+  //     displayOutflowData();
+  //   }
+    
+  // }, [graphData])
+  
 
 
 
@@ -107,17 +143,17 @@ export default function FetchData() {
     console.log(outflowData);
     if ((outflowData !== undefined && outflowData !== null) && dataCollected) {
        setGraphData(outflowData.value.timeSeries[0].values[0].value);
-        displayOutflowName();
-         getMeasurementValues();
+        // displayOutflowName();
+        //  getMeasurementValues();
+        //  convertToReactVisData();
         // consoleData();
         // setmaxValueGraphHeight();
-        convertToReactVisData();
       
         // console.log(graphData);
         
     }
     else {
-      alert("Cant do that just yet!")
+      alert("Display: Cant do that just yet!")
     }
   }
     // displayOutflowName();
@@ -144,7 +180,7 @@ export default function FetchData() {
     }
   }
 
-  // integrate here the data to be passed into Chart.js
+  // integrate here the data to be passed into Chart
   // pseudocode
   // const data = {
   //   {x: outflowData.date0.instantaneousValue, y: outflowData.date0},
@@ -193,12 +229,15 @@ export default function FetchData() {
     if (dataCollected) {
       setgraphBoolean(true);
     } else {
-      alert("Cant do that just yet!");
+      alert("Graphing: Cant do that just yet!");
     }
     
   }
 
 
+
+
+  // Date Time formatting for X axis labeling: 
   function formatDate(date) {
     var dd = date.getDate();
     var mm = date.getMonth() + 1;
@@ -213,6 +252,8 @@ export default function FetchData() {
     return date;
   }
 
+
+  // X axis labeling on a recurring reverse looking 7 day span. Current day is always today. 
   let xAxisArray = []
   function xAxisLabels() {
     xAxisArray = [];
@@ -228,9 +269,16 @@ export default function FetchData() {
 
 
     return (
-      <div>
+      <div className="fetchData">
+        <div className="instructions">
+        <p className="instructionsText">
+          Instructions: please provide one of the locations for the site number.
+          The current parameter code for this is {usgsParameterCode}. The site
+          does include rails to ensure that the correct code is applied. The two
+          site codes to choose from are: 03179000 and 01646500
+        </p>
+        </div>
         <form onSubmit={handleSubmit}>
-          <p className="instructions"> Instructions: please push buttons 1 => 5 for details. Most all smaller details will be provided in the console.</p>
           <label>Please provide the sample point:</label>
           <br></br>
           <input
@@ -243,7 +291,7 @@ export default function FetchData() {
             type="submit"
             // onClick={() => getOutflowData()}
           >
-            1. Get Outflow Data
+            Get Outflow Data
           </button>
         </form>
 
@@ -252,11 +300,11 @@ export default function FetchData() {
         </button>
         <button onClick={() => getMeasurementValues()}>
           Get Temperature Data
-        </button> */}
+        </button>
         <button onClick={() => displayOutflowData()}>2. Grab all Data</button>
         <br></br>
-        {/* <button onClick={() => consoleData()}>Console Graph Data</button> */}
-        {/* <br></br> */}
+        <button onClick={() => consoleData()}>Console Graph Data</button> 
+         <br></br>
         <button onClick={() => convertToReactVisData()}>
           3. Conversion Data
         </button>
@@ -268,7 +316,7 @@ export default function FetchData() {
         <button onClick={() => graphIt()}> 5. GraphIT!</button>
         <br></br>
         <button onClick={() => xAxisLabels()}> Date Check!</button>
-        <br></br>
+        <br></br> */}
         <div className="chartWrapper">
           {graphBoolean ? (
             <div className="chart" style={{}}>
@@ -284,7 +332,7 @@ export default function FetchData() {
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <LineMarkSeries data={dataPayload} size="1" />
-                <XAxis title="X Axis" tickTotal={8}  />
+                <XAxis title="X Axis" tickTotal={8} />
                 <YAxis title="Outflow ft^3/s" tickTotal={10} />
               </FlexibleXYPlot>
             </div>
